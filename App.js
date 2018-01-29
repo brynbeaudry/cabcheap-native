@@ -1,13 +1,32 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
+import promiseMiddleware from 'redux-promise-middleware'
 
 import AppReducer from './src/reducers';
 import AppWithNavigationState from './src/navigators/AppNavigator';
 
 export default class App extends React.Component {
-  store = createStore(AppReducer);
+
+  composeEnhancers = compose
+  
+  middleware = [
+    thunk,
+    promiseMiddleware(),
+    logger,
+  ]
+  enhancers = []
+
+  store = createStore(
+    AppReducer, 
+    this.composeEnhancers(
+        applyMiddleware(...this.middleware),
+        ...this.enhancers
+    ),
+  );
 
   /* Adding Fonts to work with Nativebase */
   async componentWillMount() {

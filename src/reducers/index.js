@@ -12,6 +12,7 @@ const initialNavState = AppNavigator.router.getStateForAction(
   tempNavState
 );
 
+//NavigationActions back goes back on login, because you want to get back to where you wqere before login
 function nav(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
