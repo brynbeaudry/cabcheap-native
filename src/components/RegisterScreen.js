@@ -13,6 +13,11 @@ import fb_btn from "../assets/FBbtn.png"
 import google_btn from "../assets/GplusBtn.png"
 import { NavigationActions } from 'react-navigation';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginManager,
+} = FBSDK;
+
 export default class RegisterScreen extends Component {
 
     constructor(props) {
@@ -88,6 +93,10 @@ export default class RegisterScreen extends Component {
             this.setState({ loading : false })
         }
     };
+
+    print(m){
+        console.log(m)
+    }
 
     _navigateToLogin = () => {
         this.props.navigation.dispatch(NavigationActions.back())

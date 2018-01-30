@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View, Image, TouchableHighlight } from 'react-native'
 import { Container, Header, H1, H2, Content, Form, Item, Input, Button, Text, Label, Icon, Thumbnail } from 'native-base';
 import axios from 'axios';
 import querystring from 'query-string';
@@ -11,6 +11,7 @@ import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCrede
 import logo from "../assets/CCLogo640x480.png"
 import fb_btn from "../assets/FBbtn.png"
 import google_btn from "../assets/GplusBtn.png"
+import {Facebook} from 'expo';
 
 export default class LoginScreen extends Component {
 
@@ -26,6 +27,29 @@ export default class LoginScreen extends Component {
 
     _navigateToRegister = () => {
         this.props.navigation.navigate('Register')
+    }
+
+    print(m){
+      console.log(m)
+    }
+
+    async _loginWithFacebook() {
+    const { type, token, expires = undefined } = await Facebook.logInWithReadPermissionsAsync('162508234396151', {
+      permissions: ['public_profile', 'email'],
+    });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        //here, you should actually just post to get a token back from the server using connect token with the asertion grant.
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${token}`);
+        for (let item of Object.entries(response)){
+          console.log(`${JSON.stringify(item)}`)
+        }
+        Alert.alert(
+          'Logged in!',
+          `Hi ${(await response.json()).name}!`,
+        );
+      }
     }
 
     _login = async () => {
@@ -117,12 +141,16 @@ export default class LoginScreen extends Component {
                                     style={loginStyles.btnBtn}>
                                 <Text style={{color:'#EBEDD0', fontWeight:'bold'}}>Login</Text>
                             </Button>
-                            <Image style={loginStyles.btnSocial} 
-                              resizeMode='contain' source={google_btn}
-                            />
-                            <Image style={loginStyles.btnSocial} 
-                              resizeMode='contain' source={fb_btn}
-                            />
+                            <TouchableHighlight style={loginStyles.btnSocial}  onPress={this._loginWithGoogle}>
+                              <Image style={loginStyles.btnSocial} 
+                                resizeMode='contain' source={google_btn}
+                              />
+                            </TouchableHighlight>
+                            <TouchableHighlight style={loginStyles.btnSocial}  onPress={this._loginWithFacebook} >
+                              <Image style={loginStyles.btnSocial} 
+                                resizeMode='contain' source={fb_btn}
+                              />
+                            </TouchableHighlight>
                         </View>
                         
                         
