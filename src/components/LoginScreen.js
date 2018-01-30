@@ -9,6 +9,8 @@ import safeExecute from '../util/safeExecute'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../config/PotAuth";
 import logo from "../assets/CCLogo640x480.png"
+import fb_btn from "../assets/FBbtn.png"
+import google_btn from "../assets/GplusBtn.png"
 
 export default class LoginScreen extends Component {
 
@@ -78,7 +80,7 @@ export default class LoginScreen extends Component {
         return (
             <Container style={loginStyles.container}>
                 {/* <H1 style={loginStyles.brand}>{Constants.APP_NAME}</H1> */}
-                <Image style={{flex:.5, flexDirection: 'column', height: undefined, width: undefined}} resizeMode='contain' source={logo}/>
+                <Image style={{flex:.4, flexDirection: 'column', height: undefined, width: undefined}} resizeMode='contain' source={logo}/>
                 <Spinner 
                     visible={this.state.loading} 
                     textContent={"Loading..."} 
@@ -109,20 +111,29 @@ export default class LoginScreen extends Component {
                                    secureTextEntry={true}
                                    style={loginStyles.fieldInput} />
                         </Item>
-                        <View style={loginStyles.loginSection}>
+                        <View style={loginStyles.loginSection}>  
                             <Button block
                                     onPress={() => safeExecute(this._login)}
-                                    style={{backgroundColor:'#88B652'}}>
+                                    style={loginStyles.btnBtn}>
                                 <Text style={{color:'#EBEDD0',fontWeight:'bold'}}>Login</Text>
                             </Button>
+                            <Image style={loginStyles.btnSocial} 
+                              resizeMode='contain' source={google_btn}
+                            />
+                            <Image style={loginStyles.btnSocial} 
+                              resizeMode='contain' source={fb_btn}
+                            />
                         </View>
+                        
+                        
+                        
                         <View style={loginStyles.registerSection}>
-                            <Text style={{color:'#000000'}}>───────  or  ───────</Text>
-                            <Text style={{color:'#000000',paddingTop:20}}>Don't have an Account?</Text>
-                            <Button block
+                            <Text block style={{color:'black'}}>───────  or  ───────</Text>
+                            <Text block style={{color:'black'}}>Don't have an Account?</Text>
+                            <Button block primary
                                     onPress={() => safeExecute(this._navigateToRegister)}
-                                    style={{backgroundColor:'#EBEDD0',marginTop:15}}>
-                                <Text style={{color:'#3F664E',fontWeight:'bold'}}>Sign Up</Text>
+                                    style={{backgroundColor:'#5bc0de',marginTop:15}}>
+                                <Text style={{color:'white',fontWeight:'bold'}}>Sign Up</Text>
                             </Button>
                         </View>
                         {/* if we wanna add a 'forgot password' feature
@@ -146,7 +157,7 @@ const loginStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#FFFFFF',
-        padding: 20
+        padding: 5
     },
     brand: {
         fontFamily: 'Helvetica',
@@ -166,14 +177,35 @@ const loginStyles = StyleSheet.create({
         paddingRight: 5
     },
     loginSection: {
-        paddingTop: 20
+      flex: .5,
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginBottom : 1
+
     },
     registerSection: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        paddingTop: 25
+        paddingTop: 30
+    },
+    btnSocial: {
+      marginTop : 0,
+      paddingTop : 0,
+      width : '100%',
+    },
+    btnBtn: {
+      width: '100%',
+      height : '33%',
+      backgroundColor:'#88B652',
+      marginBottom: 7
+    },
+    btnSection: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     forgotPasswordSection: {
         flex: 1,
@@ -189,7 +221,7 @@ const loginStyles = StyleSheet.create({
         paddingTop: 10
     },
     fieldInput: {
-        color: '#ffffff'
+        color: 'black'
     }
 });
 
