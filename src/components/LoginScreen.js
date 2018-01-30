@@ -115,7 +115,7 @@ export default class LoginScreen extends Component {
                             <Button block
                                     onPress={() => safeExecute(this._login)}
                                     style={loginStyles.btnBtn}>
-                                <Text style={{color:'#EBEDD0',fontWeight:'bold'}}>Login</Text>
+                                <Text style={{color:'#EBEDD0', fontWeight:'bold'}}>Login</Text>
                             </Button>
                             <Image style={loginStyles.btnSocial} 
                               resizeMode='contain' source={google_btn}
