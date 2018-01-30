@@ -12,6 +12,7 @@ import logo from "../assets/CCLogo640x480.png"
 import fb_btn from "../assets/FBbtn.png"
 import google_btn from "../assets/GplusBtn.png"
 import {Facebook} from 'expo';
+import SocialLoginButton from './SocialLoginButton';
 
 export default class LoginScreen extends Component {
 
@@ -141,16 +142,16 @@ export default class LoginScreen extends Component {
                                     style={loginStyles.btnBtn}>
                                 <Text style={{color:'#EBEDD0', fontWeight:'bold'}}>Login</Text>
                             </Button>
-                            <TouchableHighlight style={loginStyles.btnSocial}  onPress={this._loginWithGoogle}>
-                              <Image style={loginStyles.btnSocial} 
-                                resizeMode='contain' source={google_btn}
-                              />
-                            </TouchableHighlight>
-                            <TouchableHighlight style={loginStyles.btnSocial}  onPress={this._loginWithFacebook} >
-                              <Image style={loginStyles.btnSocial} 
-                                resizeMode='contain' source={fb_btn}
-                              />
-                            </TouchableHighlight>
+                            {/* Google Btn */}
+                            <SocialLoginButton
+                              image={ google_btn}
+                              loginFunction={undefined}
+                            />
+                            {/* Facebook btn */}
+                            <SocialLoginButton
+                              image={fb_btn}
+                              loginFunction={this._loginWithFacebook}
+                            />
                         </View>
                         
                         
