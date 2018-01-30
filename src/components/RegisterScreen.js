@@ -11,6 +11,7 @@ import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCrede
 import logo from "../assets/CCLogo640x480.png"
 import fb_btn from "../assets/FBbtn.png"
 import google_btn from "../assets/GplusBtn.png"
+import { NavigationActions } from 'react-navigation';
 
 export default class RegisterScreen extends Component {
 
@@ -253,12 +254,12 @@ export default class RegisterScreen extends Component {
                         </Button>
                     </View>
                     <View style={registerStyles.alreadyRegisteredSection}>
-                        <Text style={{color:'#ffffff'}}>───────  or  ───────</Text>
-                        <Text style={{color:'#ffffff',paddingTop:20}}>Already Registered?</Text>
+                        <Text style={{color:'black'}}>───────  or  ───────</Text>
+                        <Text style={{color:'black',paddingTop:20}}>Already Registered?</Text>
                         <Button block
                                 onPress={() => safeExecute(this._navigateToLogin)}
                                 style={{backgroundColor:'#EBEDD0',marginTop:15}}>
-                            <Text style={{color:'#3F664E',fontWeight:'bold'}}>Login</Text>
+                            <Text style={{color:'#3F664E',fontWeight:'bold'}}>Go Back To Login</Text>
                         </Button>
                     </View>
                 </Form>
