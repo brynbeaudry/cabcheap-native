@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { StyleSheet, View, Image, TouchableHighlight } from 'react-native'
 import { Container, Header, H1, H2, Content, Form, Item, Input, Button, Text, Label, Icon, Thumbnail } from 'native-base';
 import axios from 'axios';
+import PropTypes from 'prop-types'
 import querystring from 'query-string';
 import Constants from '../../../config/constants';
 import genericAlert from '../../../util/genericAlert';
@@ -19,84 +20,19 @@ export default class LoginScreen extends Component {
             email: "",
             password: "",
             correctPassword: false,
-            loading : false
-        };
+        }
+        this.loginWithEmail     = props.loginWithEmail.bind(this)
+        this.loginWithFacebook  = props.loginWithFacebook.bind(this)
+        this.loginWithGoogle    = props.loginWithGoogle.bind(this)
     }
 
-    _navigateToRegister = () => {
-        this.props.navigation.navigate('Register')
+    _navigateToRegister() {
+        return this.props.loginToRegister
     }
 
     print(m){
       console.log(m)
     }
-
-    async _loginWithFacebook() {
-    const { type, token, expires = undefined } = await Facebook.logInWithReadPermissionsAsync('162508234396151', {
-      permissions: ['public_profile', 'email'],
-    });
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        //here, you should actually just post to get a token back from the server using connect token with the asertion grant.
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`);
-        for (let item of Object.entries(response)){
-          console.log(`${JSON.stringify(item)}`)
-        }
-        Alert.alert(
-          'Logged in!',
-          `Hi ${(await response.json()).name}!`,
-        );
-      }
-    }
-
-    _login = async () => {
-        try {
-            this.setState({ loading : true })
-
-            if (this.state.username === "" && this.state.password === "") {
-                genericAlert("Required Field", "Please enter an email and a password.");
-                return;
-            } else if (this.state.email === "") {
-                genericAlert("Required Field", "Please enter an email.");
-                return;
-            } else if (this.state.password === "") {
-                genericAlert("Required Field", "Please enter a password.");
-                return;
-            }
-
-            let body = querystring.stringify({
-                response: 'code',
-                grant_type: 'password',
-                username: this.state.email,
-                password: this.state.password   
-            });
-
-            let response = await axios({
-                method: 'post',
-                url: `${Config.url}connect/token`,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: body
-            });
-
-            if (response.status === 200) { // OK success
-                this.setState({ loading : false })
-                await storeAccessToken(response.data.access_token);
-                await storeApplicationUserId(response.data.id_token);
-                await storeRefreshToken(response.data.refresh_token)
-                await storeCredentials(this.state.email, this.state.password)
-                this.props.navigation.navigate('Main');
-            } else {
-                genericAlert("Request Error", "An error occurred during login.");
-            }
-        } catch (error) {
-            genericAlert("Oops!", error.response.data.error_description);
-        } finally {
-            this.setState({ loading : false })
-        }
-    };
 
     render() {
         return (
@@ -104,7 +40,7 @@ export default class LoginScreen extends Component {
                 {/* <H1 style={loginStyles.brand}>{Constants.APP_NAME}</H1> */}
                 <Image style={{flex:.4, flexDirection: 'column', height: undefined, width: undefined}} resizeMode='contain' source={logo}/>
                 <Spinner 
-                    visible={this.state.loading} 
+                    visible={this.props.fetching} 
                     textContent={"Loading..."} 
                     textStyle={{color: '#FFF'}} />
                 <Content>
@@ -137,27 +73,25 @@ export default class LoginScreen extends Component {
                             {/* Email Btn */}
                             <LoginButton
                               provider='EMAIL'
-                              login={undefined}
+                              formData={this.state}
+                              login= { this.props.loginWithEmail }
                             />
                             {/* Google Btn */}
                             <LoginButton
                               provider='GOOGLE'
-                              login={undefined}
+                              login={this.loginWithGoogle}
                             />
                             {/* Facebook btn */}
                             <LoginButton
                               provider='FACEBOOK'
-                              login={undefined}
+                              login={this.loginWithFacebook}
                             />
                         </View>
-                        
-                        
-                        
                         <View style={loginStyles.registerSection}>
                             <Text block style={{color:'black'}}>───────  or  ───────</Text>
                             <Text block style={{color:'black'}}>Don't have an Account?</Text>
                             <Button block primary
-                                    onPress={() => safeExecute(this._navigateToRegister)}
+                                    onPress={() => safeExecute(this.props.loginToRegister)}
                                     style={{backgroundColor:'#5bc0de',marginTop:15}}>
                                 <Text style={{color:'white',fontWeight:'bold'}}>Sign Up</Text>
                             </Button>
@@ -254,3 +188,13 @@ const loginStyles = StyleSheet.create({
 LoginScreen.navigationOptions = {
   title: 'Log In',
 };
+
+LoginScreen.propTypes = {
+    loginWithEmail : PropTypes.func.isRequired,
+    loginWithFacebook : PropTypes.func.isRequired,
+    loginWithGoogle : PropTypes.func.isRequired,
+    loginToRegister : PropTypes.func.isRequired,
+    error : PropTypes.object,
+    fetching : PropTypes.bool.isRequired,
+    isLoggedIn : PropTypes.bool.isRequired
+}

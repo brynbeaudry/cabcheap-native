@@ -8,7 +8,8 @@ import AppWithNavigationState from './src/navigators/AppNavigator';
 const initialState = {
   nav : undefined,
   lastAction : undefined,
-  auth : {isLoggedIn : false}
+  auth : {isLoggedIn : false},
+  fetching : false
 }
 export default class App extends React.Component {
 

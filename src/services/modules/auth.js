@@ -39,33 +39,31 @@ export function register (user = {}) {
   }
 }
 
-export function loginWithEmail (user = {}) {
+export function loginWithEmail (email, password) {
   return {
     type    : LOGIN_USER_EMAIL,
     payload : {
-      promise: AuthService.loginWithEmail(user)
+      promise: AuthService.loginWithEmail(email, password)
     },
-    meta : user.email
+    meta : email
   }
 }
 
-export function loginWithFacebook (user = {}) {
+export function loginWithFacebook () {
   return {
     type    : LOGIN_USER_FACEBOOK,
     payload : {
-      promise: AuthService.loginWithFacebook(user)
+      promise: AuthService.loginWithFacebook()
     },
-    meta : user.email
   }
 }
 
-export function loginWithGoogle (user = {}) {
+export function loginWithGoogle () {
   return {
     type    : LOGIN_USER_GOOGLE,
     payload : {
       promise: AuthService.loginWithGoogle(user)
     },
-    meta : user.email
   }
 }
 
@@ -97,49 +95,59 @@ export const actions = {
 const ACTION_HANDLERS = {
   [REGISTER_USER_PENDING]  : (state, action) => {
     return ({ ...state,
-      token : null,
-      user : null,
-      error: null,
+      error: undefined,
       fetching : true,
     })
   },
   [REGISTER_USER_REJECTED] : (state, action) => {
     return ({ ...state,
-      token : null,
-      user : null,
       error: action.payload,
       fetching : false,
     })
   },
   [REGISTER_USER_FULFILLED] : (state, action) => {
     return ({ ...state,
-      token: action.payload,
-      user : null,
-      error: null,
+      error: undefined,
       fetching : false,
     })
   },
   [LOGIN_USER_EMAIL_PENDING]  : (state, action) => {
     return ({ ...state,
-      token : null,
-      user : null,
-      error: null,
+      error: undefined,
       fetching : true,
     })
   },
   [LOGIN_USER_EMAIL_REJECTED] : (state, action) => {
     return ({ ...state,
-      token : null,
-      user : null,
       error: action.payload,
       fetching : false,
     })
   },
   [LOGIN_USER_EMAIL_FULFILLED] : (state, action) => {
     return ({ ...state,
-      token: action.payload.auth.access_token,
+      auth: { isLoggedIn : true, ...action.payload },
       user : action.payload.user,
-      error: null,
+      error: undefined,
+      fetching : false,
+    })
+  },
+  [LOGIN_USER_FACEBOOK_PENDING]  : (state, action) => {
+    return ({ ...state,
+      error: undefined,
+      fetching : true,
+    })
+  },
+  [LOGIN_USER_FACEBOOK_REJECTED] : (state, action) => {
+    return ({ ...state,
+      error: action.payload,
+      fetching : false,
+    })
+  },
+  [LOGIN_USER_FACEBOOK_FULFILLED] : (state, action) => {
+    return ({ ...state,
+      auth: { isLoggedIn : true, ...action.payload },
+      user : action.payload.user,
+      error: undefined,
       fetching : false,
     })
   },
@@ -148,8 +156,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = 0
-export default function authReducer (state = initialState, action) {
+export default function authReducer (state = {}, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }

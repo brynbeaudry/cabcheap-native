@@ -1,5 +1,20 @@
 import request from '../request'
 import querystring from 'query-string';
+import { Facebook } from 'expo'
+
+async function getFacebookToken () {
+  const { type, token, expires = undefined } = await Facebook.logInWithReadPermissionsAsync(
+    '162508234396151', 
+    {permissions: ['public_profile', 'email']}
+  );
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      //here, you should actually just post to get a token back from the server using connect token with the asertion grant.
+      return token
+    }else{
+      return ""
+    }
+  }
 
 function register (user) {
   let username = user.username !== undefined ? user.username : `${user.email.split('@')[0]}`
@@ -12,7 +27,7 @@ function register (user) {
   })
 }
 
-function loginWithEmail (user) {
+function loginWithEmail (email, password) {
   return request({
     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
     url: '/login',
@@ -20,13 +35,14 @@ function loginWithEmail (user) {
     data : querystring.stringify({ 
       response_type : 'code',
       grant_type : 'password',
-      username: user.email,
-      password: user.password
+      username: email,
+      password: password
     })
   })
 }
 
-function loginWithFacebook (facebook_access_token) {
+async function loginWithFacebook () {
+  const facebook_access_token = await getFacebookToken()
   return request({
     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
     url: '/login',

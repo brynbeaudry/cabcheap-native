@@ -24,6 +24,12 @@ function nav(state = initialNavState, action) {
         state
       );
       break;
+    case 'Register':
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: 'Register' }),
+      state
+    );
+    break;
     case 'Logout':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),

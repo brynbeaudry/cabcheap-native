@@ -1,5 +1,5 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -7,7 +7,7 @@ import { StyleSheet, View, Image, TouchableHighlight } from 'react-native'
 import fb_btn from "../assets/FBbtn.png"
 import google_btn from "../assets/GplusBtn.png"
 import email_btn from "../assets/EmailButton.png"
-import { LOGIN_USER_EMAIL, LOGIN_USER_FACEBOOK, LOGIN_USER_GOOGLE } from '../../../services/modules/auth'
+import genericAlert from '../../../util/genericAlert';
 
 
 function imageFromProvider(provider){
@@ -23,45 +23,47 @@ function imageFromProvider(provider){
   }
 }
 
+function isFormDataValid(formData) {
+  if (formData.email === "" && formData.password === "") {
+      genericAlert("Required Fields", "Please enter an email and password.");
+      return false;
+  } else if (formData.email === "") {
+      genericAlert("Required Field", "Please enter an email.");
+      return false;
+  } else if (formData.password === "") {
+      genericAlert("Required Field", "Please enter a password.");
+      return false;
+  }
+  return true
+}
 
-
-function actionTypeFromProvider(provider){
-  switch (provider) {
-    case 'FACEBOOK':
-      return LOGIN_USER_FACEBOOK
-    case 'GOOGLE':
-      return LOGIN_USER_GOOGLE
-    case 'EMAIL':
-      return LOGIN_USER_EMAIL
-    default :
-      return LOGIN_USER_EMAIL
+const LoginButton = ({ provider, login, formData = {} }) => {
+  if(provider !== 'EMAIL'){
+    return (
+      <TouchableHighlight style={loginStyles.btnSocial}  onPress={login}>
+        <Image style={loginStyles.btnSocial} 
+          resizeMode='contain' 
+          source={imageFromProvider(provider)}
+        />
+      </TouchableHighlight>
+    )
+  } else {
+    return (
+      <TouchableHighlight style={loginStyles.btnSocial}  onPress={() => (isFormDataValid(formData) && login) }>
+        <Image style={loginStyles.btnSocial} 
+          resizeMode='contain' 
+          source={imageFromProvider(provider)}
+        />
+      </TouchableHighlight>
+    )
   }
 }
 
-
-
-const LoginButton = ({ provider, login }) => (
-  <TouchableHighlight style={loginStyles.btnSocial}  onPress={login}>
-    <Image style={loginStyles.btnSocial} 
-      resizeMode='contain' 
-      source={imageFromProvider(provider)}
-    />
-  </TouchableHighlight>
-);
-
 LoginButton.propTypes = {
-  provider : Proptypes.string.isRequired,
-  login : Proptypes.func.isRequired,
-  //strangley, the image sends in a number.
-};
-
-const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
-
-const mapDispatchToProps = dispatch => ({
-  login: () => dispatch({ type: actionTypeFromProvider(this.props.provider) }),
-});
+  provider : PropTypes.string.isRequired,
+  login : PropTypes.func.isRequired,
+  formData : PropTypes.object
+}
 
 const loginStyles = StyleSheet.create({
 
@@ -114,4 +116,4 @@ const loginStyles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
+export default LoginButton;

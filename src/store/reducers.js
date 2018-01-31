@@ -7,7 +7,8 @@ export const makeRootReducer = () => {
   return combineReducers({
     nav: navReducer,
     lastAction : lastActionReducer,
-    auth : authReducer
+    auth : authReducer,
+    fetching : authReducer
   })
 }
 
