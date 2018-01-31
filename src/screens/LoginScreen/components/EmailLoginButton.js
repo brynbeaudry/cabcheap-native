@@ -23,7 +23,7 @@ function isFormDataValid(formData) {
 }
 
 const EmailLoginButton = ({formData, loginWithEmail}) => {
-    const handleSubmit = isFormDataValid(formData)? loginWithEmail : () => {}
+    const handleSubmit = isFormDataValid(formData)? () => loginWithEmail(formData.email, formData.password) : () => {}
     return (
       <TouchableHighlight style={loginStyles.btnSocial}  onPress={handleSubmit}>
         <Image style={loginStyles.btnSocial} 

@@ -69,7 +69,7 @@ export default class LoginScreen extends Component {
                             <EmailLoginButton
                               formData={this.state}
                             />
-                            {/* Google Btn */}
+                            {/* Google Btn */}                            
                             <SocialLoginButton
                               provider='GOOGLE'
                               login={this.props.loginWithGoogle}
