@@ -8,7 +8,7 @@ import genericAlert from '../../../util/genericAlert';
 import safeExecute from '../../../util/safeExecute'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
-
+import logo from "../../../assets/CCLogo640x480.png"
 import { NavigationActions } from 'react-navigation';
 
 const FBSDK = require('react-native-fbsdk');

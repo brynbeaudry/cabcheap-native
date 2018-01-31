@@ -134,11 +134,6 @@ export default class LoginScreen extends Component {
                                    style={loginStyles.fieldInput} />
                         </Item>
                         <View style={loginStyles.loginSection}>  
-                            <Button block
-                                    onPress={() => safeExecute(this._login)}
-                                    style={loginStyles.btnBtn}>
-                                <Text style={{color:'#EBEDD0', fontWeight:'bold'}}>Login</Text>
-                            </Button>
                             {/* Email Btn */}
                             <LoginButton
                               provider='EMAIL'
