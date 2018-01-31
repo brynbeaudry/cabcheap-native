@@ -163,7 +163,7 @@ const authReducer = (state = initialAuthState, action) => {
   console.log(`In auth reducer state: ${JSON.stringify(state)} action : ${JSON.stringify(action)}`)
   switch (action.type) {
     case REGISTER_USER_PENDING: 
-      return AppNavigator.router.getStateForAction({ ...state,
+      return ({ ...state,
         error: undefined,
         fetching : true,
       })
@@ -181,18 +181,20 @@ const authReducer = (state = initialAuthState, action) => {
       return ({ ...state,
         error: undefined,
         fetching : true,
+        isLoggedIn: false,
       })
     case LOGIN_USER_EMAIL_REJECTED:
       return ({ ...state,
         error: action.payload,
         fetching : false,
+        isLoggedIn: false,
       })
     case LOGIN_USER_EMAIL_FULFILLED:
-      return AppNavigator.router.getStateForAction({ ...state,
-        auth: { isLoggedIn : true, ...action.payload },
-        user : action.payload.user,
+      return({...state,
+        ...action.payload,
         error: undefined,
         fetching : false,
+        isLoggedIn: true,
       })
     case LOGIN_USER_FACEBOOK_PENDING:
       return ({ ...state,
