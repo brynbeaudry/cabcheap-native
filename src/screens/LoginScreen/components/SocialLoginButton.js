@@ -30,56 +30,26 @@ function dispatchActionFromProvider(provider){
       return fb_btn
     case 'GOOGLE':
       return google_btn
-    case 'EMAIL':
-      return email_btn
     default :
       return email_btn
   }
 }
 
-function isFormDataValid(formData) {
-  if (formData.email === "" && formData.password === "") {
-      genericAlert("Required Fields", "Please enter an email and password.");
-      return false;
-  } else if (formData.email === "") {
-      genericAlert("Required Field", "Please enter an email.");
-      return false;
-  } else if (formData.password === "") {
-      genericAlert("Required Field", "Please enter a password.");
-      return false;
-  }
-  return true
+
+const SocialLoginButton = ({ provider, login }) => {
+  return (
+    <TouchableHighlight style={loginStyles.btnSocial}  onPress={login}>
+      <Image style={loginStyles.btnSocial} 
+        resizeMode='contain' 
+        source={imageFromProvider(provider)}
+      />
+    </TouchableHighlight>
+  )
 }
 
-const LoginButton = ({ provider, login, formData = {} }) => {
-  if(provider !== 'EMAIL'){
-    return (
-      <TouchableHighlight style={loginStyles.btnSocial}  onPress={dispatchActionFromProvider(provider, null)}>
-        <Image style={loginStyles.btnSocial} 
-          resizeMode='contain' 
-          source={imageFromProvider(provider)}
-        />
-      </TouchableHighlight>
-    )
-  } else {
-    return (
-      <TouchableHighlight style={loginStyles.btnSocial}  onPress={() => (isFormDataValid(formData) ? dispatchActionFromProvider(provider, formData)}>
-        <Image style={loginStyles.btnSocial} 
-          resizeMode='contain' 
-          source={imageFromProvider(provider)}
-        />
-      </TouchableHighlight>
-    )
-  }
-}
-
-LoginButton.propTypes = {
+SocialLoginButton.propTypes = {
   provider : PropTypes.string.isRequired,
   login : PropTypes.func.isRequired,
-  formData : PropTypes.object,
-  loginWithEmail : PropTypes.func.isRequired,
-  loginWithFacebook : PropTypes.func.isRequired,
-  loginWithGoogle : PropTypes.func.isRequired,
 }
 
 const loginStyles = StyleSheet.create({
@@ -133,4 +103,4 @@ const loginStyles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
+export default SocialLoginButton

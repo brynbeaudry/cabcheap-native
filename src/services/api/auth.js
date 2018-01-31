@@ -30,7 +30,7 @@ function register (user) {
 function loginWithEmail (email, password) {
   return request({
     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-    url: '/login',
+    url: '/connect/token',
     method : 'POST',
     data : querystring.stringify({ 
       response_type : 'code',
@@ -45,7 +45,7 @@ async function loginWithFacebook () {
   const facebook_access_token = await getFacebookToken()
   return request({
     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-    url: '/login',
+    url: '/connect/token',
     method : 'POST',
     data : querystring.stringify({ 
       response_type : 'code',
@@ -59,7 +59,7 @@ async function loginWithFacebook () {
 function loginWithGoogle (google_identity_token) {
   return request({
     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-    url: '/login',
+    url: '/connect/token',
     method : 'POST',
     data : querystring.stringify({ 
       response_type : 'code',

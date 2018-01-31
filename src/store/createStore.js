@@ -4,8 +4,7 @@ import makeRootReducer from './reducers'
 import logger from 'redux-logger'
 import promiseMiddleware from 'redux-promise-middleware'
 
-
-const createStore = (initialState = {}) => {
+const createStore = () => {
   let composeEnhancers = compose
   
   const middleware = [
@@ -17,7 +16,7 @@ const createStore = (initialState = {}) => {
 
   const store = createReduxStore(
     makeRootReducer(), 
-    initialState,
+    undefined,
     composeEnhancers(
         applyMiddleware(...middleware),
         ...enhancers
@@ -25,6 +24,16 @@ const createStore = (initialState = {}) => {
   )
 
   store.asyncReducers = {}
+
+  // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
+  //store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
+
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      const reducers = require('./reducers').default
+      store.replaceReducer(reducers(store.asyncReducers))
+    })
+  }
 
   return store
 }

@@ -4,17 +4,16 @@ import { NavigationActions } from 'react-navigation';
 
 import LoginScreen from '../components/LoginScreen'
 
-const mapDispatchToProps = dispatch => ({
-    loginWithEmail, 
-    loginWithFacebook, 
-    loginWithGoogle, 
-    loginToRegister : () => dispatch(NavigationActions.navigate({ routeName: 'Register' })),
-})
+const mapDispatchToProps = {
+    loginWithFacebook : loginWithFacebook, 
+    loginWithGoogle: loginWithGoogle, 
+    loginToRegister : () => NavigationActions.navigate({ routeName: 'Register' }),
+}
 
 
 const mapStateToProps = (state) => ({
-    error : state.error,
-    fetching : state.fetching,
+    error : state.auth.error,
+    fetching : state.auth.fetching,
     isLoggedIn : state.auth.isLoggedIn
 })
 

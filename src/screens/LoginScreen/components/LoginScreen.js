@@ -10,24 +10,19 @@ import safeExecute from '../../../util/safeExecute'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
 import logo from "../../../assets/CCLogo640x480.png"
-import LoginButton from './LoginButton';
+import EmailLoginButton from './EmailLoginButton';
+import SocialLoginButton from './SocialLoginButton';
 
 export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
-            password: "",
+            email: "a@a.a",
+            password: "password",
             correctPassword: false,
         }
-        this.loginWithEmail     = props.loginWithEmail.bind(this)
-        this.loginWithFacebook  = props.loginWithFacebook.bind(this)
-        this.loginWithGoogle    = props.loginWithGoogle.bind(this)
-    }
 
-    _navigateToRegister() {
-        return this.props.loginToRegister
     }
 
     print(m){
@@ -71,20 +66,18 @@ export default class LoginScreen extends Component {
                         </Item>
                         <View style={loginStyles.loginSection}>  
                             {/* Email Btn */}
-                            <LoginButton
-                              provider='EMAIL'
+                            <EmailLoginButton
                               formData={this.state}
-                              login= { this.props.loginWithEmail }
                             />
                             {/* Google Btn */}
-                            <LoginButton
+                            <SocialLoginButton
                               provider='GOOGLE'
-                              login={this.loginWithGoogle}
+                              login={this.props.loginWithGoogle}
                             />
                             {/* Facebook btn */}
-                            <LoginButton
+                            <SocialLoginButton
                               provider='FACEBOOK'
-                              login={this.loginWithFacebook}
+                              login={this.props.loginWithFacebook}
                             />
                         </View>
                         <View style={loginStyles.registerSection}>
@@ -190,7 +183,6 @@ LoginScreen.navigationOptions = {
 };
 
 LoginScreen.propTypes = {
-    loginWithEmail : PropTypes.func.isRequired,
     loginWithFacebook : PropTypes.func.isRequired,
     loginWithGoogle : PropTypes.func.isRequired,
     loginToRegister : PropTypes.func.isRequired,

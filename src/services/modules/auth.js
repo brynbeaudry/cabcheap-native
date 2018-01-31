@@ -3,6 +3,7 @@
 // ------------------------------------
 // import {defaultStore} from '../../../store/createStore'
 import AuthService from '../api/auth'
+import { AppNavigator } from '../../navigators/AppNavigator';
 
 // ------------------------------------
 // Constants
@@ -44,8 +45,7 @@ export function loginWithEmail (email, password) {
     type    : LOGIN_USER_EMAIL,
     payload : {
       promise: AuthService.loginWithEmail(email, password)
-    },
-    meta : email
+    }
   }
 }
 
@@ -92,7 +92,7 @@ export const actions = {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
-const ACTION_HANDLERS = {
+/* const ACTION_HANDLERS = {
   [REGISTER_USER_PENDING]  : (state, action) => {
     return ({ ...state,
       error: undefined,
@@ -153,10 +153,68 @@ const ACTION_HANDLERS = {
   },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
 export default function authReducer (state = {}, action) {
+  console.log(`In auth reducer state: ${JSON.stringify(state)} action : ${JSON.stringify(action)}`)
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
-}
+} */
+const initialAuthState = { isLoggedIn: false, fetching : false, error : null };
+const authReducer = (state = initialAuthState, action) => {
+  console.log(`In auth reducer state: ${JSON.stringify(state)} action : ${JSON.stringify(action)}`)
+  switch (action.type) {
+    case REGISTER_USER_PENDING: 
+      return AppNavigator.router.getStateForAction({ ...state,
+        error: undefined,
+        fetching : true,
+      })
+    case REGISTER_USER_REJECTED:
+      return ({ ...state,
+        error: action.payload,
+        fetching : false,
+      })
+    case REGISTER_USER_FULFILLED:
+      return ({ ...state,
+        error: undefined,
+        fetching : false,
+      })
+    case LOGIN_USER_EMAIL_PENDING:
+      return ({ ...state,
+        error: undefined,
+        fetching : true,
+      })
+    case LOGIN_USER_EMAIL_REJECTED:
+      return ({ ...state,
+        error: action.payload,
+        fetching : false,
+      })
+    case LOGIN_USER_EMAIL_FULFILLED:
+      return AppNavigator.router.getStateForAction({ ...state,
+        auth: { isLoggedIn : true, ...action.payload },
+        user : action.payload.user,
+        error: undefined,
+        fetching : false,
+      })
+    case LOGIN_USER_FACEBOOK_PENDING:
+      return ({ ...state,
+        error: undefined,
+        fetching : true,
+      })
+    case LOGIN_USER_FACEBOOK_REJECTED:
+      return ({ ...state,
+        error: action.payload,
+        fetching : false,
+      })
+    case LOGIN_USER_FACEBOOK_FULFILLED:
+      return ({ ...state,
+        auth: { isLoggedIn : true, ...action.payload },
+        user : action.payload.user,
+        error: undefined,
+        fetching : false,
+      })
+    default:
+      return state; 
+  }
+};
+
+export default authReducer
+

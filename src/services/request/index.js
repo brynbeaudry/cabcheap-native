@@ -11,7 +11,7 @@ const client = axios.create({
  * Request Wrapper with default success/error actions
  */
 const request = function (options) {
-  console.log('options: ', options)
+  //console.log('options: ', options)
   const onSuccess = function (response) {
     console.debug('Request Successful!', response)
     return response.data

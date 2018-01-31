@@ -5,15 +5,10 @@ import createStore from './src/store/createStore'
 
 
 import AppWithNavigationState from './src/navigators/AppNavigator';
-const initialState = {
-  nav : undefined,
-  lastAction : undefined,
-  auth : {isLoggedIn : false},
-  fetching : false
-}
+import navReducer from './src/store/navReducer'
 export default class App extends React.Component {
 
-  store = createStore(initialState)
+  store = createStore(navReducer)
 
   /* Adding Fonts to work with Nativebase */
   async componentWillMount() {
