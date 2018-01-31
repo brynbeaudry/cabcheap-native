@@ -1,24 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { StyleSheet, View, Image, TouchableHighlight } from 'react-native'
+import fb_btn from "../assets/FBbtn.png"
+import google_btn from "../assets/GplusBtn.png"
+import email_btn from "../assets/EmailButton.png"
+import { LOGIN_USER_EMAIL, LOGIN_USER_FACEBOOK, LOGIN_USER_GOOGLE } from '../../../services/modules/auth'
+
+
+function imageFromProvider(provider){
+  switch (provider) {
+    case 'FACEBOOK':
+      return fb_btn
+    case 'GOOGLE':
+      return google_btn
+    case 'EMAIL':
+      return email_btn
+    default :
+      return email_btn
+  }
+}
 
 
 
-const SocialLoginButton = ({loginFunction, isLoggedIn, image }) => (
-  <TouchableHighlight style={loginStyles.btnSocial}  onPress={loginFunction}>
+function actionTypeFromProvider(provider){
+  switch (provider) {
+    case 'FACEBOOK':
+      return LOGIN_USER_FACEBOOK
+    case 'GOOGLE':
+      return LOGIN_USER_GOOGLE
+    case 'EMAIL':
+      return LOGIN_USER_EMAIL
+    default :
+      return LOGIN_USER_EMAIL
+  }
+}
+
+
+
+const LoginButton = ({ provider, login }) => (
+  <TouchableHighlight style={loginStyles.btnSocial}  onPress={login}>
     <Image style={loginStyles.btnSocial} 
-      resizeMode='contain' source={image}
+      resizeMode='contain' 
+      source={imageFromProvider(provider)}
     />
   </TouchableHighlight>
 );
 
-SocialLoginButton.propTypes = {
-  loginFunction : PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
-  image: PropTypes.string.isRequired,
+LoginButton.propTypes = {
+  provider : Proptypes.string.isRequired,
+  login : Proptypes.func.isRequired,
+  //strangley, the image sends in a number.
 };
 
 const mapStateToProps = state => ({
@@ -26,9 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: () => dispatch({ type: '' }),
-  loginScreen: () =>
-    dispatch(NavigationActions.navigate({ routeName: 'Login' })),
+  login: () => dispatch({ type: actionTypeFromProvider(this.props.provider) }),
 });
 
 const loginStyles = StyleSheet.create({
@@ -82,4 +114,4 @@ const loginStyles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SocialLoginButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);

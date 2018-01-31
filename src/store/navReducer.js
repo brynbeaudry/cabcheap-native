@@ -11,9 +11,11 @@ const initialNavState = AppNavigator.router.getStateForAction(
   secondAction,
   tempNavState
 );
+
+
 const initialAuthState = { isLoggedIn: false };
 //NavigationActions back goes back on login, because you want to get back to where you wqere before login
-function nav(state = {initialNavState, initialAuthState}, action) {
+function nav(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
     case 'Login':
@@ -37,14 +39,7 @@ function nav(state = {initialNavState, initialAuthState}, action) {
   return nextState || state;
 }
 
-function lastAction(state = null, action) {
-  return action;
-}
 
+const navReducer = nav
 
-const AppReducer = combineReducers({
-  lastAction,
-  nav,
-});
-
-export default AppReducer;
+export default navReducer;

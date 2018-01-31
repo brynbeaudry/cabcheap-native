@@ -5,7 +5,6 @@ import axios from 'axios'
  */
 const client = axios.create({
   baseURL: 'http://coreapi.cabcheap.com/',
-  headers : { 'Content-Type' : 'application/json' },
 })
 
 /**

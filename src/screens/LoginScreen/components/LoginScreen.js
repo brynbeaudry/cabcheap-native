@@ -3,16 +3,13 @@ import { StyleSheet, View, Image, TouchableHighlight } from 'react-native'
 import { Container, Header, H1, H2, Content, Form, Item, Input, Button, Text, Label, Icon, Thumbnail } from 'native-base';
 import axios from 'axios';
 import querystring from 'query-string';
-import Constants from '../config/constants';
-import genericAlert from '../util/genericAlert';
-import safeExecute from '../util/safeExecute'
+import Constants from '../../../config/constants';
+import genericAlert from '../../../util/genericAlert';
+import safeExecute from '../../../util/safeExecute'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../config/PotAuth";
-import logo from "../assets/CCLogo640x480.png"
-import fb_btn from "../assets/FBbtn.png"
-import google_btn from "../assets/GplusBtn.png"
-import {Facebook} from 'expo';
-import SocialLoginButton from './SocialLoginButton';
+import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
+import logo from "../../../assets/CCLogo640x480.png"
+import LoginButton from './LoginButton';
 
 export default class LoginScreen extends Component {
 
@@ -142,15 +139,20 @@ export default class LoginScreen extends Component {
                                     style={loginStyles.btnBtn}>
                                 <Text style={{color:'#EBEDD0', fontWeight:'bold'}}>Login</Text>
                             </Button>
+                            {/* Email Btn */}
+                            <LoginButton
+                              provider='EMAIL'
+                              login={undefined}
+                            />
                             {/* Google Btn */}
-                            <SocialLoginButton
-                              image={ google_btn}
-                              loginFunction={undefined}
+                            <LoginButton
+                              provider='GOOGLE'
+                              login={undefined}
                             />
                             {/* Facebook btn */}
-                            <SocialLoginButton
-                              image={fb_btn}
-                              loginFunction={this._loginWithFacebook}
+                            <LoginButton
+                              provider='FACEBOOK'
+                              login={undefined}
                             />
                         </View>
                         

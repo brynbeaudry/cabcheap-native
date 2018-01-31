@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-import LoginScreen from '../components/LoginScreen';
-import MainScreen from '../components/MainScreen';
-import ProfileScreen from '../components/ProfileScreen';
-import RegisterScreen from '../components/RegisterScreen';
+import LoginScreen from '../screens/LoginScreen/components/LoginScreen';
+import MainScreen from '../screens/MainScreen/components/MainScreen';
+import ProfileScreen from '../screens/ProfileScreen/components/ProfileScreen';
+import RegisterScreen from '../screens/RegisterScreen/components/RegisterScreen';
 
 
 /* This is where the sacreens are specified */

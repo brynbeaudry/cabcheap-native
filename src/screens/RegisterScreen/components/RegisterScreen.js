@@ -3,14 +3,12 @@ import { StyleSheet, View, Image } from 'react-native'
 import { Container, Header, H1, H2, Content, Form, Item, Input, Button, Text, Label, Icon, Thumbnail } from 'native-base';
 import axios from 'axios';
 import querystring from 'query-string';
-import Constants from '../config/constants';
-import genericAlert from '../util/genericAlert';
-import safeExecute from '../util/safeExecute'
+import Constants from '../../../config/constants';
+import genericAlert from '../../../util/genericAlert';
+import safeExecute from '../../../util/safeExecute'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../config/PotAuth";
-import logo from "../assets/CCLogo640x480.png"
-import fb_btn from "../assets/FBbtn.png"
-import google_btn from "../assets/GplusBtn.png"
+import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
+
 import { NavigationActions } from 'react-navigation';
 
 const FBSDK = require('react-native-fbsdk');
