@@ -205,13 +205,14 @@ const authReducer = (state = initialAuthState, action) => {
       return ({ ...state,
         error: action.payload,
         fetching : false,
+        isLoggedIn: false,
       })
     case LOGIN_USER_FACEBOOK_FULFILLED:
       return ({ ...state,
-        auth: { isLoggedIn : true, ...action.payload },
-        user : action.payload.user,
+        ...action.payload,
         error: undefined,
         fetching : false,
+        isLoggedIn: true,
       })
     default:
       return state; 
