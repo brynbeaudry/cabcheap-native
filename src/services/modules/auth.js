@@ -160,7 +160,7 @@ export default function authReducer (state = {}, action) {
 } */
 const initialAuthState = { isLoggedIn: false, fetching : false, error : null };
 const authReducer = (state = initialAuthState, action) => {
-  console.log(`In auth reducer state: ${JSON.stringify(state)} action : ${JSON.stringify(action)}`)
+  //console.log(`In auth reducer state: ${JSON.stringify(state)} action : ${JSON.stringify(action)}`)
   switch (action.type) {
     case REGISTER_USER_PENDING: 
       return ({ ...state,

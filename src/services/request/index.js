@@ -13,7 +13,7 @@ const client = axios.create({
 const request = function (options) {
   //console.log('options: ', options)
   const onSuccess = function (response) {
-    console.debug('Request Successful!', response)
+    //console.debug('Request Successful!', response)
     return response.data
   }
 
