@@ -5,7 +5,7 @@ export const didLogIn = store => next => action => {
   if (action.type === 'LOGIN_USER_EMAIL_FULFILLED') {
     next(action)
     console.log(`Did Log In ____________\n
-      /* ${store}\n${next}\n${action}\n */
+      
     `)
     store.dispatch(NavigationActions.reset({
       index: 0,

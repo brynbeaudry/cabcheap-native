@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { StyleSheet, View, Image } from 'react-native'
 import { Container, Header, H1, H2, Content, Form, Item, Input, Button, Text, Label, Icon, Thumbnail } from 'native-base';
 import axios from 'axios';
+import PropTypes from 'prop-types'
 import querystring from 'query-string';
 import Constants from '../../../config/constants';
 import genericAlert from '../../../util/genericAlert';
@@ -11,10 +12,6 @@ import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCrede
 import logo from "../../../assets/CCLogo640x480.png"
 import { NavigationActions } from 'react-navigation';
 
-const FBSDK = require('react-native-fbsdk');
-const {
-  LoginManager,
-} = FBSDK;
 
 export default class RegisterScreen extends Component {
 
@@ -36,9 +33,7 @@ export default class RegisterScreen extends Component {
     }
 
     
-    _register = async () => {
-        try {
-            this.setState({ loading : true })
+    _handleSubmit = async () => {
 
             if (!this.state.successFirstName ||
                 !this.state.successLastName ||
@@ -55,41 +50,7 @@ export default class RegisterScreen extends Component {
                 'Password': this.state.password,
                 'ConfirmPassword': this.state.confirmPassword
             };
-            let response = await axios({
-                method: 'post',
-                url: `${Config.url}api/register`,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: body
-            });
-            if (response.status === 200) {
-                this.setState({ loading : false })
-                setTimeout(() => { Alert.alert(
-                    'Success', 'Account registered.',
-                    [
-                        {text: 'OK', onPress: () => safeExecute(this._navigateToLogin)}
-                    ],
-                    { cancelable: false }
-                )}, 100);
-            } else {
-                genericAlert("Request Error", "An error occurred during registration.");
-            }
-        } catch (error) {
-            let errors = error.response.data.errors;
-            let alertMsg = "";
-            if (errors.length > 0) {
-                errors.forEach((val, idx, arr) => {
-                    alertMsg += val.description;
-                    if (idx !== arr.length - 1) {
-                        alertMsg += "\n\n";
-                    }
-                });
-            }
-            genericAlert("Oops!", alertMsg);
-        } finally {
-            this.setState({ loading : false })
-        }
+            
     };
 
     print(m){
@@ -255,7 +216,7 @@ export default class RegisterScreen extends Component {
                     </Item>
                     <View style={registerStyles.createAccountSection}>
                         <Button block
-                                onPress={this._register}
+                                onPress={this._handleSubmit}
                                 style={{backgroundColor:'#88B652'}}>
                             <Text style={{color:'#EBEDD0',fontWeight:'bold'}}>Create Account</Text>
                         </Button>
@@ -274,6 +235,13 @@ export default class RegisterScreen extends Component {
             </Container>
         );
     }
+}
+
+RegisterScreen.propTypes = {
+    register : PropTypes.func.isRequired,
+    error : PropTypes.object,
+    fetching : PropTypes.bool.isRequired,
+    isLoggedIn : PropTypes.bool.isRequired
 }
 
 const registerStyles = StyleSheet.create({
