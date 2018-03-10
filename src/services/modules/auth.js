@@ -32,6 +32,7 @@ export const LOGIN_USER_GOOGLE_FULFILLED =    'LOGIN_USER_GOOGLE_FULFILLED'
 payload should be an axios.post(register roue, user)
 */
 export function register (user = {}) {
+  console.log(`in register`)
   return {
     type    : REGISTER_USER,
     payload : {

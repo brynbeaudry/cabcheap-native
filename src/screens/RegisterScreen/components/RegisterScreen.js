@@ -11,6 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
 import logo from "../../../assets/CCLogo640x480.png"
 import { NavigationActions } from 'react-navigation';
+import { loginWithEmail } from '../../../services/modules/auth'
 
 
 export default class RegisterScreen extends Component {
@@ -33,7 +34,7 @@ export default class RegisterScreen extends Component {
     }
 
     
-    _handleSubmit = async () => {
+    _handleSubmit = () => {
 
             if (!this.state.successFirstName ||
                 !this.state.successLastName ||
@@ -43,14 +44,18 @@ export default class RegisterScreen extends Component {
                 genericAlert("Oops!", "Please check required fields.");
                 return;
             }
-            let body = {
-                'FirstName': this.state.firstName,
-                'LastName': this.state.lastName,
-                'Email': this.state.email,
-                'Password': this.state.password,
-                'ConfirmPassword': this.state.confirmPassword
+            let user = {
+                'firstName': this.state.firstName,
+                'lastName': this.state.lastName,
+                'email': this.state.email,
+                'password': this.state.password,
             };
-            
+
+            console.log(`In handle submit User: ${JSON.stringify(user)}`)
+            console.log(`In handle submit props: ${JSON.stringify(this.props)}`)
+
+            this.props.register(user)
+
     };
 
     print(m){
@@ -238,10 +243,10 @@ export default class RegisterScreen extends Component {
 }
 
 RegisterScreen.propTypes = {
-    register : PropTypes.func.isRequired,
+    register : PropTypes.func,
     error : PropTypes.object,
-    fetching : PropTypes.bool.isRequired,
-    isLoggedIn : PropTypes.bool.isRequired
+    fetching : PropTypes.bool,
+    isLoggedIn : PropTypes.bool
 }
 
 const registerStyles = StyleSheet.create({

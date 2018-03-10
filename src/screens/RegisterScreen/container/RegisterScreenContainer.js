@@ -5,9 +5,8 @@ import { NavigationActions } from 'react-navigation';
 import RegisterScreen from '../components/RegisterScreen'
 
 const mapDispatchToProps = {
-    register: register,
+    register : register
 }
-
 
 const mapStateToProps = (state) => ({
     error : state.auth.error,

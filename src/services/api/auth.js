@@ -17,13 +17,14 @@ async function getFacebookToken () {
   }
 
 function register (user) {
-  let username = user.username !== undefined ? user.username : `${user.email.split('@')[0]}`
-  console.log('in register: ', `${user} \n Username ${username}`)
+  let username = user.userName !== undefined ? user.userName : `${user.email.split('@')[0]}`
+  console.log('auth api in register: ', `${user} \n Username ${username}`)
+  let data = { email: user.email, password: user.password, userName: username, firstName : user.firstName, lastName : user.lastName }
   return request({
     headers : {'Content-Type': 'application/json'},
     method : 'post',
-    url: '/register',
-    data : { email: user.email, password: user.password, username: username },
+    url: '/api/register',
+    data : data,
   })
 }
 

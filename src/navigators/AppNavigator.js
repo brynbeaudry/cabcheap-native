@@ -6,7 +6,7 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen/container/LoginScreenContainer';
 import MainScreen from '../screens/MainScreen/components/MainScreen';
 import ProfileScreen from '../screens/ProfileScreen/components/ProfileScreen';
-import RegisterScreen from '../screens/RegisterScreen/components/RegisterScreen';
+import RegisterScreen from '../screens/RegisterScreen/container/RegisterScreenContainer';
 
 
 /* This is where the sacreens are specified */
