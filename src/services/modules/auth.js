@@ -37,7 +37,8 @@ export function register (user = {}) {
     type    : REGISTER_USER,
     payload : {
       promise: AuthService.register(user)
-    }
+    },
+    meta    : user
   }
 }
 
@@ -171,7 +172,7 @@ const authReducer = (state = initialAuthState, action) => {
       })
     case REGISTER_USER_REJECTED:
       return ({ ...state,
-        error: action.payload,
+        error: action.payload.errors[0],
         fetching : false,
       })
     case REGISTER_USER_FULFILLED:
@@ -187,7 +188,7 @@ const authReducer = (state = initialAuthState, action) => {
       })
     case LOGIN_USER_EMAIL_REJECTED:
       return ({ ...state,
-        error: action.payload,
+        error: action.payload.errors[0],
         fetching : false,
         isLoggedIn: false,
       })

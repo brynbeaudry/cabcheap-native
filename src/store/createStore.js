@@ -3,7 +3,8 @@ import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
 import logger from 'redux-logger'
 import promiseMiddleware from 'redux-promise-middleware'
-import didLogin, { didLogIn } from "../middleware/didLogin";
+import { didLogIn } from "../middleware/didLogin";
+import { didRegister } from "../middleware/didRegister";
 
 const createStore = () => {
   let composeEnhancers = compose
@@ -12,7 +13,8 @@ const createStore = () => {
     thunk,
     promiseMiddleware(),
     logger,
-    didLogIn
+    didLogIn,
+    didRegister,
   ]
   const enhancers = []
 
