@@ -210,7 +210,7 @@ export const removeCredentials = () => {
  * Parses and decodes a JSON Web Token.
  * @param token (JWT)
  * @returns applicationUserId
- * @private
+ * 
  */
 _decodeJWT = (token) => {
     let base64Url = token.split('.')[1];
