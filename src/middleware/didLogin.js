@@ -1,5 +1,6 @@
 import { NavigationActions } from 'react-navigation';
 import { decodeJWT } from '../util/base64'
+import request from '../services/request'
 
 export const didLogIn = store => next => action => {
   
@@ -17,15 +18,28 @@ export const didLogIn = store => next => action => {
       decoded id token :  ${ decoded_token }
     `)
     action.payload.id_token = decoded_token
-
-    store.dispatch(NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Main'})
-      ]
-    }))
-    // somehwo this interrupts the fullfilled
-    next(action)
+    console.log(`Did Log In ____________
+      decoded id token. sub :  ${ decoded_token.sub }
+    `)
+    let getUserInfo = request({
+        headers : {'Content-Type': 'application/json'},
+        method : 'get',
+        url: `/api/users/${decoded_token.sub}`,
+    })
+    getUserInfo.then((user) => {
+      console.log(`Did Log In ____________
+      user object :  ${ JSON.stringify(user) }
+      `)
+      action.payload.user = user
+      store.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Main'})
+        ]
+      }))
+      // somehwo this interrupts the fullfilled
+      next(action)
+    })
   }
   return next(action)
 }
