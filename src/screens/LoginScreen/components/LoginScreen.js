@@ -18,7 +18,7 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "a@a.a",
+            email: "f@f.f",
             password: "password",
             correctPassword: false,
         }
@@ -46,7 +46,7 @@ export default class LoginScreen extends Component {
                                    placeholder="Email"
                                    placeholderTextColor='#bdc3c7'
                                    selectionColor='#ffffff'
-                                   value={this.state.username}
+                                   value={this.state.email}
                                    onChangeText={(value) => this.setState({email: value})}
                                    autoCapitalize="none"
                                    autoCorrect={false}
