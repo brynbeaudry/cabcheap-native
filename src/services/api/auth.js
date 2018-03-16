@@ -71,9 +71,10 @@ function loginWithGoogle (google_identity_token) {
   })
 }
 
-function logout () {
+function logout (accessToken) {
   return request({
-    url: '/logout',
+    headers : {'Authorization': `Bearer ${accessToken}`},
+    url: '/connect/logout',
     method : 'POST'
   })
 }

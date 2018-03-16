@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { logout } from "../../../services/modules/auth";
+
 
 const styles = StyleSheet.create({
   welcome: {
@@ -12,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoginStatusMessage = ({ isLoggedIn, dispatch }) => {
+const LoginStatusMessage = ({ isLoggedIn, navigateToProfile, logout }) => {
   if (!isLoggedIn) {
     return <Text>Please log in</Text>;
   }
@@ -22,8 +24,7 @@ const LoginStatusMessage = ({ isLoggedIn, dispatch }) => {
         {'You are "logged in" right now'}
       </Text>
       <Button
-        onPress={() =>
-          dispatch(NavigationActions.navigate({ routeName: 'Profile' }))}
+        onPress={ navigateToProfile }
         title="Profile"
       />
     </View>
@@ -32,11 +33,16 @@ const LoginStatusMessage = ({ isLoggedIn, dispatch }) => {
 
 LoginStatusMessage.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  navigateToProfile: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  logout : logout,
+  navigateToProfile : () => dispatch(NavigationActions.navigate({ routeName: 'Profile' })),
+})
 
 const mapStateToProps = state => ({
   isLoggedIn: state.auth.isLoggedIn,
 });
 
-export default connect(mapStateToProps)(LoginStatusMessage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginStatusMessage);

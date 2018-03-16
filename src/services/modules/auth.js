@@ -24,6 +24,11 @@ export const LOGIN_USER_GOOGLE =              'LOGIN_USER_GOOGLE'
 export const LOGIN_USER_GOOGLE_PENDING =      'LOGIN_USER_GOOGLE_PENDING'
 export const LOGIN_USER_GOOGLE_REJECTED =     'LOGIN_USER_GOOGLE_REJECTED'
 export const LOGIN_USER_GOOGLE_FULFILLED =    'LOGIN_USER_GOOGLE_FULFILLED'
+export const LOGOUT_USER =                    'LOGOUT_USER'
+export const LOGOUT_USER_PENDING =            'LOGOUT_USER_PENDING'
+export const LOGOUT_USER_REJECTED =           'LOGOUT_USER_REJECTED'
+export const LOGOUT_USER_FULFILLED =          'LOGOUT_USER_FULFILLED'
+
 
 // ------------------------------------
 // Actions
@@ -65,6 +70,15 @@ export function loginWithGoogle () {
     type    : LOGIN_USER_GOOGLE,
     payload : {
       promise: AuthService.loginWithGoogle(user)
+    },
+  }
+}
+
+export function logout (accessToken) {
+  return {
+    type    : LOGOUT_USER,
+    payload : {
+      promise: AuthService.logout(accessToken)
     },
   }
 }
