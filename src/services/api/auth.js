@@ -71,11 +71,12 @@ function loginWithGoogle (google_identity_token) {
   })
 }
 
-function logout (accessToken) {
+function logout (accessToken, userId) {
+  console.log(`In logout svc api  authToken : ${accessToken} \n and UserId: ${userId}`)
   return request({
     headers : {'Authorization': `Bearer ${accessToken}`},
-    url: '/connect/logout',
-    method : 'POST'
+    url: `/api/logout/${userId}`,
+    method : 'GET'
   })
 }
 

@@ -74,11 +74,11 @@ export function loginWithGoogle () {
   }
 }
 
-export function logout (accessToken) {
+export function logout (accessToken, userId) {
   return {
     type    : LOGOUT_USER,
     payload : {
-      promise: AuthService.logout(accessToken)
+      promise: AuthService.logout(accessToken, userId)
     },
   }
 }
@@ -103,7 +103,7 @@ export const doubleAsync = () => {
 }
 */
 export const actions = {
-  register, loginWithEmail, loginWithGoogle, loginWithFacebook
+  register, loginWithEmail, loginWithGoogle, loginWithFacebook, logout
 }
 
 // ------------------------------------
@@ -230,6 +230,22 @@ const authReducer = (state = initialAuthState, action) => {
         error: undefined,
         fetching : false,
         isLoggedIn: true,
+      })
+    case LOGOUT_USER_PENDING:
+      return ({ ...state,
+        error: undefined,
+        fetching : true,
+      })
+    case LOGOUT_USER_REJECTED:
+      return ({ ...state,
+        error: action.payload,
+        fetching : false,
+      })
+    case LOGOUT_USER_FULFILLED:
+      return ({ ...action.payload,
+        error: undefined,
+        fetching : false,
+        isLoggedIn: false,
       })
     default:
       return state; 

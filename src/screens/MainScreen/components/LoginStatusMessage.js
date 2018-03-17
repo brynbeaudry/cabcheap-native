@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { logout } from "../../../services/modules/auth";
 
 
 const styles = StyleSheet.create({
@@ -14,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoginStatusMessage = ({ isLoggedIn, navigateToProfile, logout }) => {
+const LoginStatusMessage = ({ isLoggedIn, navigateToProfile }) => {
   if (!isLoggedIn) {
     return <Text>Please log in</Text>;
   }
@@ -37,12 +36,10 @@ LoginStatusMessage.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  logout : logout,
   navigateToProfile : () => dispatch(NavigationActions.navigate({ routeName: 'Profile' })),
 })
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginStatusMessage);

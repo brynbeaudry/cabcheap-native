@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-
+import PropTypes from 'prop-types'
 import LoginStatusMessage from './LoginStatusMessage';
 import AuthButton from './AuthButton';
 
@@ -13,15 +13,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const MainScreen = () => (
+const MainScreen = ({error, fetching, isLoggedIn = false}) => (
   <View style={styles.container}>
-    <LoginStatusMessage />
-    <AuthButton />
+    <LoginStatusMessage isLoggedIn={isLoggedIn} />
+    <AuthButton isLoggedIn={isLoggedIn}/>
   </View>
 );
 
 MainScreen.navigationOptions = {
   title: 'Home Screen',
 };
+
+MainScreen.propTypes = {
+  error : PropTypes.object,
+  fetching : PropTypes.bool.isRequired,
+  isLoggedIn : PropTypes.bool.isRequired
+}
 
 export default MainScreen;
