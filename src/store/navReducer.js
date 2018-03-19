@@ -5,20 +5,22 @@ import { AppNavigator } from '../navigators/AppNavigator';
 
 // Start with two routes: The Main screen, with the Login screen on top.
 // Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
+const mainDrawerAction = NavigationActions.init()
+const mainDrawerState = AppNavigator.router.getStateForAction(mainDrawerAction)
 //const tempNavState = AppNavigator.router.getStateForAction(firstAction);
-const tempNavState=AppNavigator.router.getStateForAction(NavigationActions.reset({
+/* const tempNavState=AppNavigator.router.getStateForAction(NavigationActions.reset({
 	index: 0,
 	actions: [
 	  NavigationActions.navigate({
 		routeName: 'Main',
 	  }),
 	],
-}))
+})) */
+//const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
 const initialNavState = AppNavigator.router.getStateForAction(
   secondAction,
-  tempNavState
+  mainDrawerState
 );
 
 //NavigationActions back goes back on login, because you want to get back to where you wqere before login

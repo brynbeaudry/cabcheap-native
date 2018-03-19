@@ -16,8 +16,13 @@ export const AppNavigator = StackNavigator({
   Login: { screen: LoginScreen },
   Register : { screen: RegisterScreen},
   Main: { screen: MenuNavigator },
-  Profile: { screen: ProfileScreen },
-});
+  },
+  {
+      //contentComponent : props => <SideBar {...props}/>,
+      initialRouteName : 'Main',
+      headerMode: 'screen',
+  }
+);
 
 class AppWithNavigationState extends React.Component {
   static propTypes = {
