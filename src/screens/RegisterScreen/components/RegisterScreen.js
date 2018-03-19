@@ -11,7 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import { storeAccessToken, storeApplicationUserId, storeRefreshToken, storeCredentials } from "../../../config/PotAuth";
 import logo from "../../../assets/CCLogo640x480.png"
 import { NavigationActions } from 'react-navigation';
-import { loginWithEmail } from '../../../services/modules/auth'
+
 
 
 export default class RegisterScreen extends Component {
@@ -22,7 +22,7 @@ export default class RegisterScreen extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            loading : false,
+            loading : this.props.fetching || false,
             password: "",
             confirmPassword: "",
             successFirstName: false, errorFirstName: false,
