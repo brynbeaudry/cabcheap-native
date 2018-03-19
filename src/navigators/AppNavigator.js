@@ -1,7 +1,9 @@
 import React from 'react';
+import {Root} from "native-base";
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import MenuNavigator from "./MenuNavigator";
 
 import LoginScreen from '../screens/LoginScreen/container/LoginScreenContainer';
 import MainScreen from '../screens/MainScreen/container/MainScreenContainer';
@@ -13,7 +15,7 @@ import RegisterScreen from '../screens/RegisterScreen/container/RegisterScreenCo
 export const AppNavigator = StackNavigator({
   Login: { screen: LoginScreen },
   Register : { screen: RegisterScreen},
-  Main: { screen: MainScreen },
+  Main: { screen: MenuNavigator },
   Profile: { screen: ProfileScreen },
 });
 
@@ -48,13 +50,15 @@ class AppWithNavigationState extends React.Component {
   render() {
     const { dispatch, nav } = this.props;
     return (
-      <AppNavigator
-        navigation={addNavigationHelpers({
-          dispatch,
-          state: nav,
-          addListener: this._addListener,
-        })}
-      />
+      <Root>
+        <AppNavigator
+          navigation={addNavigationHelpers({
+            dispatch,
+            state: nav,
+            addListener: this._addListener,
+          })}
+        />
+      </Root>
     );
   }
 }
