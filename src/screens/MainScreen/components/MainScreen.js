@@ -65,7 +65,7 @@ const MainScreen = ({error, fetching = false, isLoggedIn = false}) => (
 );
 
 MainScreen.navigationOptions = {
-  //title: 'Home Screen', taking this out appears to take away the top header.
+  title: 'Home Screen'
 };
 
 MainScreen.propTypes = {
