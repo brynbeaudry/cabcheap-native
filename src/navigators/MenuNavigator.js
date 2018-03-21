@@ -8,7 +8,7 @@ import RegisterScreen from '../screens/RegisterScreen/container/RegisterScreenCo
 import { Container, Header, Title, Button, Left, Right, Body, Icon } from 'native-base';
 import SideBar from "../components/SideBar";
 
-export const MenuNavigator = DrawerNavigator(
+const MenuNavigator = DrawerNavigator(
   {
       Home: { screen: MainScreen },
       Profile: { screen: ProfileScreen },

@@ -82,7 +82,8 @@ SideBar.propTypes = {
   };
   
   const mapStateToProps = state => ({
-    user : state.auth.user
+    user : state.auth.user,
+    isLoggedIn : state.auth.isLoggedIn
   });
   
   const mapDispatchToProps = dispatch => ({
