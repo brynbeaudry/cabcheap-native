@@ -57,10 +57,11 @@ class SideBar extends Component {
                     dataArray={routes}
                     contentContainerStyle={{ marginTop: 120 }}
                     renderRow={data => {
+                        let onPress = (data === 'Logout' ? () => this.props.logout(this.props.accessToken, this.props.user.id) : () => navigation.navigate(data) )
                     return (
                         <ListItem
                         button
-                        onPress={() => navigation.navigate(data)}
+                        onPress={onPress}
                         >
                         <Text>{data}</Text>
                         </ListItem>
@@ -77,11 +78,13 @@ class SideBar extends Component {
 SideBar.propTypes = {
     isLoggedIn: PropTypes.bool,
     logout: PropTypes.func.isRequired,
+    accessToken : PropTypes.string,
     user : PropTypes.object,
     navigation : PropTypes.object
   };
   
   const mapStateToProps = state => ({
+    accessToken : state.auth.access_token,
     user : state.auth.user,
     isLoggedIn : state.auth.isLoggedIn
   });
