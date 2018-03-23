@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { AppRegistry, Image, StatusBar } from "react-native";
 import { NavigationActions } from 'react-navigation';
 import { logout } from "../services/modules/auth";
+import { StyleSheet, View } from 'react-native';
 import {
-  Button,
   Text,
   Container,
   List,
@@ -14,6 +14,15 @@ import {
 } from "native-base";
 import logo from "../assets/CCLogo640x480.png"
 import PropTypes from 'prop-types'
+
+const styles = StyleSheet.create({
+    authMessage: {
+      fontSize: 20,
+      color: "black",
+      /* textAlign: 'center',
+      margin: 10, */
+    },
+  });
 
 class SideBar extends Component {
 
@@ -25,8 +34,10 @@ class SideBar extends Component {
     render() {
         const { isLoggedIn, logout, user, navigation } = this.props
         console.log(`In SideBar isLoggedIn : ${ isLoggedIn }`);
+        let firstName = user ? user.firstName : ''
         
         let routes = (isLoggedIn) ? ["Home", "Profile", "Logout"] : ["Home", "Login", "Register"]
+        let authMessage = (isLoggedIn) ? `Welcome ${firstName}!` : "Please Login!"
         return (
             <Container>
                 <Content>
@@ -53,9 +64,19 @@ class SideBar extends Component {
                     }}
                     source={logo}
                 />
+                <Text 
+                    style={{
+                    marginTop : 140,
+                    width: "80%",
+                    //position: "absolute",
+                    alignSelf: "center",
+                    textAlign : "center"
+                }}>
+                    {authMessage}
+                </Text>
                 <List
                     dataArray={routes}
-                    contentContainerStyle={{ marginTop: 120 }}
+                    contentContainerStyle={{ marginTop: 20 }}
                     renderRow={data => {
                         let onPress = (data === 'Logout' ? () => this.props.logout(this.props.accessToken, this.props.user.id) : () => navigation.navigate(data) )
                     return (
