@@ -6,6 +6,7 @@ import createStore from './src/store/createStore'
 
 import AppWithNavigationState from './src/navigators/AppNavigator';
 import navReducer from './src/store/navReducer'
+import { MapView } from 'expo';
 export default class App extends React.Component {
 
   store = createStore(navReducer)
