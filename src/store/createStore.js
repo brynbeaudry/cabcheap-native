@@ -12,7 +12,7 @@ const createStore = () => {
   const middleware = [
     thunk,
     promiseMiddleware(),
-    logger,
+    //logger,
     didLogIn,
     didRegister,
   ]

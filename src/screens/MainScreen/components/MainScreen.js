@@ -81,6 +81,7 @@ const mapScreen = (props) => (
 
 const MainScreen = (props) => {
     const {error, fetching = false, isLoggedIn = false} = props
+    console.log(`Main screen props : ${JSON.stringify(props)}`)
     return (isLoggedIn) ? mapScreen(props) : mainWelcome(props)
 } 
 

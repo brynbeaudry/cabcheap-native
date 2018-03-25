@@ -15,25 +15,21 @@ import {
 import logo from "../assets/CCLogo640x480.png"
 import PropTypes from 'prop-types'
 
-const styles = StyleSheet.create({
-    authMessage: {
-      fontSize: 20,
-      color: "black",
-      /* textAlign: 'center',
-      margin: 10, */
-    },
-  });
 
-class SideBar extends Component {
+const SideBar = (props) => {
 
-    constructor(props){
-        super(props)
-        this.state = {
-        }
-    }
-    render() {
-        const { isLoggedIn, logout, user, navigation } = this.props
+        const styles = StyleSheet.create({
+            authMessage: {
+            fontSize: 20,
+            color: "black",
+            /* textAlign: 'center',
+            margin: 10, */
+            },
+        });
+
+        const { isLoggedIn, logout, user, navigation } = props
         console.log(`In SideBar isLoggedIn : ${ isLoggedIn }`);
+        console.log(`In SideBar props : ${ JSON.stringify(props) }`);
         let firstName = user ? user.firstName : ''
         
         let routes = (isLoggedIn) ? ["Home", "Profile", "Logout"] : ["Home", "Login", "Register"]
@@ -93,7 +89,6 @@ class SideBar extends Component {
                 </Content>
             </Container>
         );
-    }
 }
 
 SideBar.propTypes = {
