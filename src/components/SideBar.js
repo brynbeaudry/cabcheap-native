@@ -27,13 +27,16 @@ const SideBar = (props) => {
             },
         });
 
-        const { isLoggedIn, logout, user, navigation } = props
+        const { isLoggedIn, logout, user, navigation, accessToken } = props
         console.log(`In SideBar isLoggedIn : ${ isLoggedIn }`);
         console.log(`In SideBar props : ${ JSON.stringify(props) }`);
-        let firstName = user ? user.firstName : ''
-        
-        let routes = (isLoggedIn) ? ["Home", "Profile", "Logout"] : ["Home", "Login", "Register"]
-        let authMessage = (isLoggedIn) ? `Welcome ${firstName}!` : "Please Login!"
+        console.log(`In SideBar user : ${ JSON.stringify(user) }`);
+        const firstName = user !== undefined ? user.firstName : ''
+        const userId = user !== undefined ? user.id : ''
+        console.log(`In SideBar userId : ${ userId }`);
+        const routes = (isLoggedIn) ? ["Home", "Profile",] : ["Home", "Login", "Register"]
+        const authMessage = (isLoggedIn) ? `Welcome ${firstName}!` : "Please Login!"
+
         return (
             <Container>
                 <Content>
@@ -70,11 +73,11 @@ const SideBar = (props) => {
                 }}>
                     {authMessage}
                 </Text>
-                <List
+                {/* <List
                     dataArray={routes}
                     contentContainerStyle={{ marginTop: 20 }}
                     renderRow={data => {
-                        let onPress = (data === 'Logout' ? () => this.props.logout(this.props.accessToken, this.props.user.id) : () => navigation.navigate(data) )
+                        let onPress = (data === 'Logout' ? logoutFunction : () => navigation.navigate(data) )
                     return (
                         <ListItem
                         button
@@ -85,6 +88,27 @@ const SideBar = (props) => {
                     );
                     }}
                 >
+                </List> */}
+                <List
+                    contentContainerStyle={{ marginTop: 20 }}>
+                    {routes.map(data=>(
+                        <ListItem
+                        key={data}
+                        button
+                        onPress={() => navigation.navigate(data)}
+                        >
+                            <Text>{data}</Text>
+                        </ListItem>
+                    ))}
+                    {isLoggedIn && 
+                        <ListItem
+                        key='Logout'
+                        button
+                        onPress={() => logout(accessToken,userId)}
+                        >
+                            <Text>Logout</Text>
+                        </ListItem>
+                    }
                 </List>
                 </Content>
             </Container>
